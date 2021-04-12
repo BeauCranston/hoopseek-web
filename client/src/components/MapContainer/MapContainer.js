@@ -7,7 +7,7 @@ class GoogleMapWithApiKey extends Component {
       console.log('map re-rendered')
     return (
       <LoadScript
-        googleMapsApiKey={process.env.GOOGLEMAPSAPIKEY}
+        googleMapsApiKey={process.env.REACT_APP_GOOGLEMAPSAPIKEY}
       >
         <GoogleMap
           mapContainerStyle={this.props.containerStyle}
