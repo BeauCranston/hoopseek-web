@@ -28,8 +28,4 @@ app.listen(port, () =>
   console.log(`Express server is running on localhost:${port}`)
 );
 
-// $ PGUSER=pmurkcezqpjvii \
-//   PGHOST=ec2-52-21-153-207.compute-1.amazonaws.com \
-//   PGPASSWORD=d4874f37527070b5ee374dd5ef065882452e56a618c7dad4728bb8d2df9f9cb1 \
-//   PGDATABASE=d4sdu1343auhvg \
-//   PGPORT=5432 \
+
