@@ -1,0 +1,41 @@
+
+@use "./mixins/mixins";
+@import './custom.scss';
+body{
+    padding: 0;
+    margin:0;
+    font-family:'gontserrat';
+
+}
+
+h1{
+    font-size: 4em;
+}
+
+.title{
+    font-family: 'modern-sans';
+    font-size: 6em;
+}
+
+h2{
+    font-size: 2em;
+}
+
+.navbar{
+    padding: 0.5em 3em;
+}
+
+.navbar-item{
+    font-size: 1.8em;
+    font-family: 'quicksand';
+    margin-right: 1em;
+}
+
+.navbar-item:hover{
+    color:#eee;
+    text-decoration: none;
+}
+.page{
+    min-height: 100vh;
+}
+

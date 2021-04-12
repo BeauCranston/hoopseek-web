@@ -1,0 +1,23 @@
+
+
+@mixin import-font($fontName, $src){
+    @font-face {
+        font-family: $fontName;
+        src:url($src);
+    }
+      
+}
+
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+  -moz-transform:$property;
+}
+
+@mixin transition($args...){
+    -webkit-transition: $args;
+    transition: $args;
+    -moz-transition: $args;
+}
+

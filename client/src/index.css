@@ -1,0 +1,13 @@
+
+@font-face {
+    font-family: 'gontserrat';
+    src:url('./fonts/Gontserrat-Regular.ttf');
+}
+@font-face {
+    font-family: 'modern-sans';
+    src:url('./fonts/ModernSans-Light.otf');
+}
+@font-face {
+    font-family: 'quicksand';
+    src:url('./fonts/Quicksand_Book.otf');
+}

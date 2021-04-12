@@ -1,0 +1,41 @@
+.navigation-info{
+    width:300px;
+    height: 500px;
+    border-radius: 10px;
+    padding: 2em;
+    position: absolute;
+    left:3em;
+    top:6em;
+    z-index: 1;
+    .navigation-info-items{
+        margin:0
+        
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .navigation-info{
+        width:100vw;
+        height:300px;
+        
+        left:0;
+        top:66.1vh;
+        border-radius: 0;
+        .navigation-info-items{
+            width:100%;
+            text-align: center;
+            label{
+                font-size: 3vw;
+            }
+            input{
+                height:2.5vh;
+                width:20vw;
+                font-size: 1vh;
+            }
+            
+        }
+    }
+
+   
+}
+

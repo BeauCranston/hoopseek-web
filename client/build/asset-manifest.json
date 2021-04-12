@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.dcc22e02.chunk.css",
+    "main.js": "/static/js/main.bf8aa534.chunk.js",
+    "main.js.map": "/static/js/main.bf8aa534.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.bf9be4e4.js",
+    "runtime-main.js.map": "/static/js/runtime-main.bf9be4e4.js.map",
+    "static/css/2.9e766ae0.chunk.css": "/static/css/2.9e766ae0.chunk.css",
+    "static/js/2.966a4885.chunk.js": "/static/js/2.966a4885.chunk.js",
+    "static/js/2.966a4885.chunk.js.map": "/static/js/2.966a4885.chunk.js.map",
+    "static/js/3.2a8b636a.chunk.js": "/static/js/3.2a8b636a.chunk.js",
+    "static/js/3.2a8b636a.chunk.js.map": "/static/js/3.2a8b636a.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.9e766ae0.chunk.css.map": "/static/css/2.9e766ae0.chunk.css.map",
+    "static/css/main.dcc22e02.chunk.css.map": "/static/css/main.dcc22e02.chunk.css.map",
+    "static/js/2.966a4885.chunk.js.LICENSE.txt": "/static/js/2.966a4885.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/static/media/Quicksand_Book.c86e224d.otf",
+    "static/media/about-video.0ca6b6a1.mp4": "/static/media/about-video.0ca6b6a1.mp4",
+    "static/media/hoopseek-logo.eb83d491.png": "/static/media/hoopseek-logo.eb83d491.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bf9be4e4.js",
+    "static/css/2.9e766ae0.chunk.css",
+    "static/js/2.966a4885.chunk.js",
+    "static/css/main.dcc22e02.chunk.css",
+    "static/js/main.bf8aa534.chunk.js"
+  ]
+}

@@ -1,0 +1,55 @@
+@use '../../Styles/main.scss';
+
+.navbar{
+    width:100vw;
+    .logo{
+        align-content: flex-end;
+        display: inline;
+        margin-left: 6rem;
+    }
+    ul{
+        margin: 0;
+        padding: 0;
+        display: flex;
+        li{
+            list-style: none;
+            font-size: 1.6rem;
+            text-align: center;
+            a{
+                text-decoration: none;
+                color:main.$primary;
+                padding: 2vw;
+                font-family: 'eight-one';
+            }
+            a:hover{
+                color: main.$light;
+            }
+        }
+        button{
+            display:none;
+            padding:2vw;
+            font-size: 1.5rem;
+            background-color: main.$dark;
+            outline: none;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+    }
+    
+    @media only screen and (max-width: 768px) {
+        ul{
+            flex-direction: column;
+            li{
+                margin:0;
+                a{
+                    display: block;
+                }
+            }
+            button{
+                display:block
+            }   
+        }
+
+
+    }
+}
