@@ -1,15 +1,24 @@
 import React, {useState, useEffect, useContext } from 'react';
-import {Container, Button, Row, Col, Alert} from 'react-bootstrap'
-import GoogleMapWithApiKey from '../components/MapContainer/MapContainer'
-import FormControlWithLabel from '../components/FormControlWithLabel/FormControlWithLabel'
+import $ from 'jquery';
+import {Container, Button, Row, Col, Alert} from 'react-bootstrap';
+import GoogleMapWithApiKey from '../components/MapContainer/MapContainer';
+import FormControlWithLabel from '../components/FormControlWithLabel/FormControlWithLabel';
 import { useInputWithTimeout, useNavigator, useReverseGeocoding} from '../components/hooks';
 import {UserLocationContext} from '../contexts/userLocation-context'
 import {Marker} from '@react-google-maps/api'
 import '../styles/map.scss';
 function MapPage(props){
-    const [radius, updateRadius] = useInputWithTimeout(100, 15);
+    const [courts, setCourts] = useState(null);
+    const [radius, updateRadius] = useInputWithTimeout(2000, 15);
     const userLocation = useContext(UserLocationContext);
     console.log(userLocation)
+    useEffect(()=>{
+        if(courts === null){
+            $.get('/hoopseekAPI/getCourts', (data)=>{
+                console.log(data)
+            });
+        }
+    }, [courts])
     return(
         <Container fluid className='m-0 p-0'>
             <GoogleMapWithApiKey containerStyle={{width:'100vw', height:'90vh'}} center={userLocation} zoom={10}>

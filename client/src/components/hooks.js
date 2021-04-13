@@ -27,14 +27,14 @@ export function useObjectKeysAsHeadings(object){
 
 
 
-export function useInputWithTimeout(interval, initialState){
+export function useInputWithTimeout(ms, initialState){
     const [state, setState] = useState(initialState);
-    function onChangeFunc (event){
-        var timeout = 0;
-        clearTimeout(timeout);
-        timeout = setInterval(()=>{
+    var timeout = 0;
+    function onChangeFunc (event){      
+        clearInterval(timeout);
+        timeout = setTimeout(()=>{
             setState(event.target.value)
-        },interval)
+        },ms)
     }
    return [state, onChangeFunc];
 }
