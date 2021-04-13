@@ -15,6 +15,9 @@ import twitter from './media/company-logos/twitter.png'
 function App() {
     const [userLocation, feedback, allowed] = useNavigator();
     const [alertShow, setAlertShow] = useState(false);
+    const [courtFeatures, setCourtFeatures] = useState({
+
+    })
     useEffect(()=>{
         var alertTime = 2000;
         if(allowed !== null){

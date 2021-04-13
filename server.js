@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -50,9 +51,10 @@ if(process.env.NODE_ENV === 'production'){
     })
 }
 const port = process.env.PORT || 4000
-app.listen(port, () =>
-  console.log(`Express server is running on localhost:${port}`)
-  
-);
+app.listen(port, () =>{
+  console.log(`Express server is running on localhost:${port}`);
+  console.log(process.env.NODE_ENV);
+  console.log(process.env.REACT_APP_GOOGLEMAPSAPIKEY);
+});
 
 
