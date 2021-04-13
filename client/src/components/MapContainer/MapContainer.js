@@ -29,8 +29,8 @@ function CourtFeatureInput({options, initalValue, label, setState}){
     return(
         <div>
             <FormLabel>{label}</FormLabel>
-            <FormControl as="select" defaultValue={initalValue}>
-                {options.map((option)=>{ return <option value={option} key={option} onChange={(event)=>{setState(event.target.value)}}>{option}</option>})}
+            <FormControl as="select" defaultValue={initalValue} onChange={(event)=>{setState(event.target.value)}}>
+                {options.map((option)=>{ return <option value={option} key={option}>{option}</option>})}
             </FormControl>
         </div>
         
@@ -46,9 +46,30 @@ export function HoopseekMarker({courtData}){
     const [meshType, setMeshType] = useState(courtData.mesh_type);
     const [lighting, setLighting] = useState(courtData.lighting);
     const [parking, setParking] = useState(courtData.parking);
+    const courtFeatures = useContext(CourtFeaturesContext);
     const toggleOpen = ()=>{setIsOpen(!isOpen)}
     const toggleEditing = ()=>{setIsEditing(!isEditing)}
-    const courtFeatures = useContext(CourtFeaturesContext);
+    const updateCourtFeatures = ()=>{
+        console.log('updating court features')
+        var updatedCourtFeatures = {
+            court_id: courtData.court_id,
+            court_condition: courtCondition,
+            three_point_line: hasThreePointLine,
+            backboard_type: backboardType,
+            mesh_type: meshType,
+            lighting: lighting,
+            parking: parking
+        }
+        var hasUpdated = Object.entries(updatedCourtFeatures).some(([key, value])=> value !== courtData[key]);
+        console.log(hasUpdated)
+        if(hasUpdated === true){
+            $.get('/hoopseekAPI/updateCourt', updatedCourtFeatures, (response)=>{
+                console.log('Getting Response')
+                console.log(response);
+                toggleEditing();
+            });
+        }
+    }
 
     return(       
         <Marker position={{lat:parseFloat(courtData.latitude), lng:parseFloat(courtData.longitude)}} icon={courtIcon} onClick={()=>{toggleOpen()}}>
@@ -62,45 +83,31 @@ export function HoopseekMarker({courtData}){
                                 <CourtFeatureInput label={'Court Condition'} options={courtFeatures.courtCondition} initalValue={courtCondition} setState={setCourtCondition}/>
                             </Col>
                             <Col>
-                                <FormLabel>3pt Line</FormLabel >
-                                <FormControl as="select" defaultValue={courtData.three_point_line === true ? 'Yes':'No'}>
-                                    {courtFeatures.threePointLine.map((option)=>{ return <option value={option} key={option} onChange={(event)=>{setCourtCondition(event.target.value)}}>{option}</option>})}
-                                </FormControl>
-
+                                <CourtFeatureInput label={'3pt Line'} options={courtFeatures.threePointLine} initalValue={hasThreePointLine ? 'Yes': 'No'} setState={setHasThreePointLine}/>
                             </Col>
-
                         </Row>
                         <Row className='mb-3'>
                             <Col>
-                                <FormLabel>Backboard Type</FormLabel>
-                                <FormControl as="select" defaultValue={courtData.backboard_type}>
-                                    {courtFeatures.backboardType.map((option)=>{ return <option value={option} key={option} onChange={(event)=>{setCourtCondition(event.target.value)}}>{option}</option>})}
-                                </FormControl>
+                                <CourtFeatureInput label={'Backboard Type'} options={courtFeatures.backboardType} initalValue={backboardType} setState={setBackboardType}/>
                             </Col>
                             <Col>
-                                <FormLabel>Mesh Type</FormLabel>
-                                <FormControl as="select" defaultValue={courtData.mesh_type}>
-                                    {courtFeatures.meshType.map((option)=>{ return <option value={option} key={option} onChange={(event)=>{setCourtCondition(event.target.value)}}>{option}</option>})}
-                                </FormControl>
+                                <CourtFeatureInput label={'Mesh Type'} options={courtFeatures.meshType} initalValue={meshType} setState={setMeshType}/>
                             </Col>
-
                         </Row>
                         <Row className='mb-3'>
                             <Col>
-                                <FormLabel>Lighting</FormLabel>
-                                <FormControl as="select" defaultValue={courtData.lighting}>
-                                    {courtFeatures.lighting.map((option)=>{ return <option value={option} key={option}>{option}</option>})}
-                                </FormControl>
+                                <CourtFeatureInput label={'Lighting'} options={courtFeatures.lighting} initalValue={lighting} setState={setLighting}/>
                             </Col>
                             <Col>
-                                <FormLabel>Parking</FormLabel>
-                                <FormControl as="select" defaultValue={courtData.parking}>
-                                    {courtFeatures.parking.map((option)=>{ return <option value={option} key={option}>{option}</option>})}
-                                </FormControl>
+                                <CourtFeatureInput label={'Parking'} options={courtFeatures.parking} initalValue={parking} setState={setParking}/>
                             </Col>
                         </Row>
                         <div className='w-100 d-flex justify-content-center mt-5'>
-                            <Button onClick={toggleEditing}>{isEditing === false ? 'Edit Court Features' : 'Save'}</Button>
+                            <Button onClick={()=>{
+                                console.log('clicked')
+                                isEditing === false ? toggleEditing() : updateCourtFeatures();
+
+                            }}>{isEditing === false ? 'Edit Court Features' : 'Save Changes'}</Button>
                         </div>
                         
                     </Container>

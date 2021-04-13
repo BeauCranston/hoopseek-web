@@ -17,8 +17,8 @@ function MapPage(props){
     useEffect(()=>{
         if(courts === null){
             $.get('/hoopseekAPI/getCourts', (data)=>{
-                console.log(data)
-                setCourtData(data[0])
+                if(data.success) setCourtData(data.result[0]); 
+                console.log(data);
             });
         }
     }, [courts])
