@@ -1,12 +1,11 @@
 
 import React, { Component, useState, useContext } from 'react';
 import {CourtFeaturesContext} from '../../contexts/courtFeatures-context'
-import { useInputWithTimeout} from '../hooks';
-import FormControlWithLabel from '../FormControlWithLabel/FormControlWithLabel';
 import {Container, Row, Col, Button, FormControl, FormLabel} from 'react-bootstrap'
 import { GoogleMap, InfoWindow, LoadScript, Marker } from '@react-google-maps/api';
 import $ from 'jquery';
 import courtIcon from '../../media/hoopseek/push-pin.png'
+import './MapContainer.scss';
 export class GoogleMapWithApiKey extends Component {
   render() {
       console.log('map re-rendered')
@@ -26,14 +25,18 @@ export class GoogleMapWithApiKey extends Component {
   }
 }
 
-function CourtFeatureInput({options, initalValue, label, setState}){
+function CourtFeatureInput({options, initalValue, label, setState, isEditing}){
                                 
     return(
         <div>
             <FormLabel>{label}</FormLabel>
-            <FormControl as="select" defaultValue={initalValue} onChange={(event)=>{setState(event.target.value)}}>
-                {options.map((option)=>{ return <option value={option} key={option}>{option}</option>})}
-            </FormControl>
+            {isEditing ?
+                <FormControl as="select" defaultValue={initalValue} onChange={(event)=>{setState(event.target.value)}}>
+                    {options.map((option)=>{ return <option value={option} key={option}>{option}</option>})}
+                </FormControl>
+                :
+                <p className='court-feature-label'>{initalValue}</p>
+            }
         </div>
         
     );
@@ -48,7 +51,6 @@ export function HoopseekMarker({courtData}){
     const [meshType, setMeshType] = useState(courtData.mesh_type);
     const [lighting, setLighting] = useState(courtData.lighting);
     const [parking, setParking] = useState(courtData.parking);
-    const [parkName, updateParkName] = useInputWithTimeout(2000, '');
     const courtFeatures = useContext(CourtFeaturesContext);
     const toggleOpen = ()=>{setIsOpen(!isOpen)}
     const toggleEditing = ()=>{setIsEditing(!isEditing)}
@@ -56,7 +58,6 @@ export function HoopseekMarker({courtData}){
         console.log('updating court features')
         var updatedCourtFeatures = {
             court_id: courtData.court_id,
-            park_name:parkName,
             court_condition: courtCondition,
             three_point_line: hasThreePointLine,
             backboard_type: backboardType,
@@ -70,9 +71,10 @@ export function HoopseekMarker({courtData}){
             $.get('/hoopseekAPI/updateCourt', updatedCourtFeatures, (response)=>{
                 console.log('Getting Response')
                 console.log(response);
-                toggleEditing();
+                
             });
         }
+        toggleEditing();
     }
 
     return(       
@@ -80,34 +82,36 @@ export function HoopseekMarker({courtData}){
             {isOpen === true &&
             //options={{boxClass:'bg-light border border-dark', boxStyle:{width:'150px', height:'200px'}, pixelOffset:{}}}
                 <InfoWindow>
-                    <Container className='m-0 p-3' style={{width:'500px', height:'400px'}}>
+                    <Container className='m-0 p-3 hoopseek-map-info-window'>
                         <h2>{courtData.park_name}</h2>
-                        <FormControlWithLabel className='mb-3' type='text' label={'Park Name'} onChange={updateParkName} />
                         <strong style={{fontSize:'1.2em'}} className='my-3'>{courtData.area}</strong>
+                        <Container>
+                            <img className='court-image' src={courtImageToId(2)}/>
+                        </Container>
                         <Row className='my-3'>
                             <Col>
-                                <CourtFeatureInput label={'Court Condition'} options={courtFeatures.courtCondition} initalValue={courtCondition} setState={setCourtCondition}/>
+                                <CourtFeatureInput label={'Court Condition'} options={courtFeatures.courtCondition} initalValue={courtCondition} setState={setCourtCondition} isEditing={isEditing}/>
                             </Col>
                             <Col>
                                 <CourtFeatureInput label={'3pt Line'} options={courtFeatures.threePointLine} initalValue={hasThreePointLine ? 'Yes': 'No'} setState={(value)=>{ 
                                     value === 'Yes' ? setHasThreePointLine(true) : setHasThreePointLine(false) 
-                                }}/>
+                                }} isEditing={isEditing}/>
                             </Col>
                         </Row>
                         <Row className='mb-3'>
                             <Col>
-                                <CourtFeatureInput label={'Backboard Type'} options={courtFeatures.backboardType} initalValue={backboardType} setState={setBackboardType}/>
+                                <CourtFeatureInput label={'Backboard Type'} options={courtFeatures.backboardType} initalValue={backboardType} setState={setBackboardType} isEditing={isEditing}/>
                             </Col>
                             <Col>
-                                <CourtFeatureInput label={'Mesh Type'} options={courtFeatures.meshType} initalValue={meshType} setState={setMeshType}/>
+                                <CourtFeatureInput label={'Mesh Type'} options={courtFeatures.meshType} initalValue={meshType} setState={setMeshType} isEditing={isEditing}/>
                             </Col>
                         </Row>
                         <Row className='mb-3'>
                             <Col>
-                                <CourtFeatureInput label={'Lighting'} options={courtFeatures.lighting} initalValue={lighting} setState={setLighting}/>
+                                <CourtFeatureInput label={'Lighting'} options={courtFeatures.lighting} initalValue={lighting} setState={setLighting} isEditing={isEditing}/>
                             </Col>
                             <Col>
-                                <CourtFeatureInput label={'Parking'} options={courtFeatures.parking} initalValue={parking} setState={setParking}/>
+                                <CourtFeatureInput label={'Parking'} options={courtFeatures.parking} initalValue={parking} setState={setParking} isEditing={isEditing}/>
                             </Col>
                         </Row>
                         <div className='w-100 d-flex justify-content-center mt-5'>
@@ -126,6 +130,14 @@ export function HoopseekMarker({courtData}){
         
     )
     
+}
+
+
+function courtImageToId(id){
+    switch(id){
+        case 1:
+            return './courts/Corman-Park.PNG';
+    }
 }
 
 export default GoogleMapWithApiKey;

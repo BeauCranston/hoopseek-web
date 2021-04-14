@@ -50,8 +50,7 @@ app.get('/hoopseekAPI/updateCourt', (req, res)=>{
     console.log('querying database...')
     queryPostgres(`
     UPDATE courts 
-    SET park_name = '${req.query.park_name}',
-        court_condition = '${req.query.court_condition}',
+    SET court_condition = '${req.query.court_condition}',
         three_point_line = ${req.query.three_point_line},
         backboard_type = '${req.query.backboard_type}',
         mesh_type = '${req.query.mesh_type}',
