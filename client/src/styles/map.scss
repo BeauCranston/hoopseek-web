@@ -7,6 +7,9 @@
     left:3em;
     top:6em;
     z-index: 1;
+    -webkit-box-shadow: 0px 6px 12px 0px #000;
+    -moz-box-shadow: 0px 6px 12px 0px #000;
+    box-shadow: 0px 6px 12px 0px #000; 
     .navigation-info-items{
         margin:0
         
