@@ -86,7 +86,7 @@ export function HoopseekMarker({courtData}){
                         <h2>{courtData.park_name}</h2>
                         <strong style={{fontSize:'1.2em'}} className='my-3'>{courtData.area}</strong>
                         <Container>
-                            <img className='court-image' src={courtImageToId(2)}/>
+                            <img className='court-image' src={courtImageToId(1)}/>
                         </Container>
                         <Row className='my-3'>
                             <Col>
