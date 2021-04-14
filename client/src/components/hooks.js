@@ -1,5 +1,4 @@
-import { mapToStyles } from '@popperjs/core/lib/modifiers/computeStyles';
-import { array } from 'prop-types';
+
 import { useEffect, useState } from 'react';
 import $ from 'jquery';
 /**
@@ -38,17 +37,6 @@ export function useInputWithTimeout(ms, initialState){
     }
    return [state, onChangeFunc];
 }
-export function useTimeout(delay, before, after, dependencies){
-    useEffect(()=>{
-        clearTimeout(timeout)
-        before();
-        var timeout = setTimeout(()=>{
-            after();
-        }, delay)
-    }, dependencies)
-    
-}
-
 
 export function useNavigator(){
     const [userLocation, setUserLocation] = useState(null);
@@ -74,6 +62,9 @@ export function useNavigator(){
             case error.UNKNOWN_ERROR:
                 setFeedBack("An unknown error occurred.")
               break;
+            default:
+                console.log('failed somewhere in navigator')
+                break;
         }
     }
     console.log(navigator.geolocation)

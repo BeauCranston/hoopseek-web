@@ -4,7 +4,7 @@ import {Switch, Route, Link} from 'react-router-dom'
 import React, {useState, useEffect } from 'react';
 import { Container, Col, Row, Navbar,Nav, Alert } from 'react-bootstrap'
 import {UserLocationContext} from './contexts/userLocation-context'
-import { useInputWithTimeout, useNavigator, useReverseGeocoding} from './components/hooks';
+import {useNavigator} from './components/hooks';
 import AboutPage from './pages/AboutPage'
 import MapPage from './pages/MapPage'
 import SavedPage from './pages/SavedPage'
@@ -15,15 +15,13 @@ import twitter from './media/company-logos/twitter.png'
 function App() {
     const [userLocation, feedback, allowed] = useNavigator();
     const [alertShow, setAlertShow] = useState(false);
-    const [courtFeatures, setCourtFeatures] = useState({
-
-    })
     useEffect(()=>{
+        var timeout = 0
         var alertTime = 2000;
         if(allowed !== null){
             clearTimeout(timeout)
             setAlertShow(true);
-            var timeout = setTimeout(()=>{
+            timeout = setTimeout(()=>{
                 setAlertShow(false)
             }, alertTime)
         }

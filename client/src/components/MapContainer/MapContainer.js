@@ -1,6 +1,8 @@
 
-import React, { Component, useState, useEffect, useContext } from 'react';
+import React, { Component, useState, useContext } from 'react';
 import {CourtFeaturesContext} from '../../contexts/courtFeatures-context'
+import { useInputWithTimeout} from '../hooks';
+import FormControlWithLabel from '../FormControlWithLabel/FormControlWithLabel';
 import {Container, Row, Col, Button, FormControl, FormLabel} from 'react-bootstrap'
 import { GoogleMap, InfoWindow, LoadScript, Marker } from '@react-google-maps/api';
 import $ from 'jquery';
@@ -46,6 +48,7 @@ export function HoopseekMarker({courtData}){
     const [meshType, setMeshType] = useState(courtData.mesh_type);
     const [lighting, setLighting] = useState(courtData.lighting);
     const [parking, setParking] = useState(courtData.parking);
+    const [parkName, updateParkName] = useInputWithTimeout(2000, '');
     const courtFeatures = useContext(CourtFeaturesContext);
     const toggleOpen = ()=>{setIsOpen(!isOpen)}
     const toggleEditing = ()=>{setIsEditing(!isEditing)}
@@ -53,6 +56,7 @@ export function HoopseekMarker({courtData}){
         console.log('updating court features')
         var updatedCourtFeatures = {
             court_id: courtData.court_id,
+            park_name:parkName,
             court_condition: courtCondition,
             three_point_line: hasThreePointLine,
             backboard_type: backboardType,
@@ -78,12 +82,16 @@ export function HoopseekMarker({courtData}){
                 <InfoWindow>
                     <Container className='m-0 p-3' style={{width:'500px', height:'400px'}}>
                         <h2>{courtData.park_name}</h2>
-                        <Row className='mb-3'>
+                        <FormControlWithLabel className='mb-3' type='text' label={'Park Name'} onChange={updateParkName} />
+                        <strong style={{fontSize:'1.2em'}} className='my-3'>{courtData.area}</strong>
+                        <Row className='my-3'>
                             <Col>
                                 <CourtFeatureInput label={'Court Condition'} options={courtFeatures.courtCondition} initalValue={courtCondition} setState={setCourtCondition}/>
                             </Col>
                             <Col>
-                                <CourtFeatureInput label={'3pt Line'} options={courtFeatures.threePointLine} initalValue={hasThreePointLine ? 'Yes': 'No'} setState={setHasThreePointLine}/>
+                                <CourtFeatureInput label={'3pt Line'} options={courtFeatures.threePointLine} initalValue={hasThreePointLine ? 'Yes': 'No'} setState={(value)=>{ 
+                                    value === 'Yes' ? setHasThreePointLine(true) : setHasThreePointLine(false) 
+                                }}/>
                             </Col>
                         </Row>
                         <Row className='mb-3'>

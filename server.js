@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const path = require('path');
+const fs = require('fs');
+
 const { Pool, Client } = require('pg');
 const { query } = require("express");
 const pool = new Pool({
@@ -17,17 +19,6 @@ const pool = new Pool({
   });
 require("dotenv").config();
 app.use(cors());
-
-
-// (async ()=>{
-//     const client = await pool.connect();
-//     try{
-//         const res = await client.query("INSERT INTO courts(park_name, latitude, longitude, area, court_condition, mesh_type, lighting, parking, three_point_line, backboard_type) VALUES ('test', 43.29345258,-79.92034522, 'Hamilton Mountain', 'Good', 'Fabric','No Lights', 'Parking Lot', TRUE, 'Metal')");
-//         console.log(res.rows);
-//     }finally{
-//         client.release()
-//     }
-// })().catch(err => console.log(err));
 
 function queryPostgres(query, res){
     console.log('connecting...')
@@ -52,7 +43,6 @@ function queryPostgres(query, res){
     });
 }
 
-
 app.get('/hoopseekAPI/getCourts', (req, res)=>{
     queryPostgres('SELECT * FROM courts', res)
 });
@@ -60,7 +50,8 @@ app.get('/hoopseekAPI/updateCourt', (req, res)=>{
     console.log('querying database...')
     queryPostgres(`
     UPDATE courts 
-    SET court_condition = '${req.query.court_condition}',
+    SET park_name = '${req.query.park_name}',
+        court_condition = '${req.query.court_condition}',
         three_point_line = ${req.query.three_point_line},
         backboard_type = '${req.query.backboard_type}',
         mesh_type = '${req.query.mesh_type}',
