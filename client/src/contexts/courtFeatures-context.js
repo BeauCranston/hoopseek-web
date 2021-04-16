@@ -1,11 +1,11 @@
 import React from 'react';
 
 var courtFeatures = {
-    courtCondition:['Bad', 'Playable', 'Good', 'Prestine'],
-    meshType:['No Mesh', 'Fabric', 'Chain'],
-    backboardType: ['Metal', 'Glass'],
+    courtConditions:['Bad', 'Playable', 'Good', 'Prestine'],
+    meshTypes:['No Mesh', 'Fabric', 'Chain'],
+    backboardTypes: ['Metal', 'Glass'],
     lighting:['No Lights', 'Dimly Lit', 'Lots of Light'],
     parking:['No Parking', 'Street Parking', 'Parking Lot'],
-    threePointLine:['No', 'Yes']
+    hasThreePointLine:['No', 'Yes']
 }
 export const CourtFeaturesContext = React.createContext(courtFeatures);

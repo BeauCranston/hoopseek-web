@@ -1,5 +1,5 @@
 .navigation-info{
-    width:300px;
+    width:350px;
     height: 500px;
     border-radius: 10px;
     padding: 2em;
@@ -13,6 +13,34 @@
     .navigation-info-items{
         margin:0
         
+    }
+    .slider{
+        -webkit-appearance: none;  /* Override default CSS styles */
+        appearance: none;
+        outline: none;
+        border-radius: 5px;
+        height:10px;
+        -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+        transition: opacity .2s;
+      }
+      
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+        border-radius: 50%;
+        -webkit-appearance: none; /* Override default look */
+        appearance: none;
+        width: 20px; /* Set a specific slider handle width */
+        height:20px; /* Slider handle height */
+        background: white; /* Green background */
+        cursor: pointer; /* Cursor on hover */
+    }
+    
+    .slider::-moz-range-thumb {
+        border-radius: 50%;
+        width: 20px; /* Set a specific slider handle width */
+        height: 20px; /* Slider handle height */
+        background:white; /* Green background */
+        cursor: pointer; /* Cursor on hover */
     }
 }
 
@@ -42,3 +70,15 @@
    
 }
 
+.court-image-container{
+    width:100%;
+
+    display: flex;
+    img{
+        width:100%;
+        max-width:400px;
+        max-height: 300px;
+        object-fit: cover;
+    }
+    
+}

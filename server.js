@@ -31,13 +31,12 @@ function queryPostgres(query, res){
         }
         console.log('connection successful, querying...')
         client.query(query, (err, result) => {
-            console.log('made it');
             release();
             if (err) {
                 res.json({result: err, success:false});
                 return console.error('Error executing query', err.stack);
             }
-            console.log(result.rows);
+            console.log('done!')
             res.json({result:result.rows, success:true});
         });
     });
@@ -45,6 +44,22 @@ function queryPostgres(query, res){
 
 app.get('/hoopseekAPI/getCourts', (req, res)=>{
     queryPostgres('SELECT * FROM courts', res)
+});
+app.get('/hoopseekAPI/addCourt', (req, res)=>{
+    queryPostgres(`
+    INSERT INTO courts (park_name, area, latitude, longitude, court_condition,three_point_line,backboard_type,mesh_type,lighting,parking)      
+    VALUES('${req.query.park_name}', 
+    '${req.query.area}', 
+    '${req.query.latitude}', 
+    '${req.query.longitude}',
+    '${req.query.court_condition}', 
+    ${req.query.three_point_line},
+    '${req.query.backboard_type}',
+    '${req.query.mesh_type}',
+    '${req.query.lighting}',
+    '${req.query.parking}')
+    RETURNING *;
+    `, res)
 });
 app.get('/hoopseekAPI/updateCourt', (req, res)=>{
     console.log('querying database...')
@@ -69,7 +84,6 @@ const port = process.env.PORT || 4000
 app.listen(port, () =>{
   console.log(`Express server is running on localhost:${port}`);
   console.log(process.env.NODE_ENV);
-  console.log(process.env.REACT_APP_GOOGLEMAPSAPIKEY);
 });
 
 

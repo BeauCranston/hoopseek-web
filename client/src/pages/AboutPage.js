@@ -2,19 +2,16 @@ import {Container, Button, Row, Col} from 'react-bootstrap'
 import '../styles/about.scss'
 import playingBaketballVideo from '../media/hoopseek/about-video.mp4'
 function AboutPage(){
-    
     return(
         <Container fluid className='page m-0'>
             <video className='fullscreen-video' autoPlay loop muted>
-                <source src={playingBaketballVideo} type="video/mp4"/>
-                
+                <source src={playingBaketballVideo} type="video/mp4"/>              
             </video>
             <Container fluid className='p-0'>
                 <Row>
                     <Col className='bg-light text-secondary mt-5 p-5 ml-5' md={{span:6}}>
                         <header>
-                        <h1 className='title mb-4'>About</h1>
-                        
+                        <h1 className='title mb-4'>About</h1>                       
                         <p>
                             Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
                             Cum molestiae ad modi eaque corporis debitis quidem ipsam dolorum quam! 
@@ -30,19 +27,11 @@ function AboutPage(){
                         </p>
                         <div className='w-100 d-flex justify-content-between'>
                             <Button className='p-3 mt-4' variant='primary'>Start seeking!</Button>
-                        </div>
-                        
-                        
-
-                        
-                        
-                        
+                        </div>                     
                     </header>
                     </Col>
-                </Row>
-                
+                </Row>               
             </Container>
-           
         </Container>
     )
 }

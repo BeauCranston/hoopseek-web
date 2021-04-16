@@ -27,6 +27,7 @@ function App() {
         }
         
     }, [allowed])
+    console.log('app render')
   return (
     <div className="App">
         <UserLocationContext.Provider value={userLocation}>
