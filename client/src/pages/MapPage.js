@@ -24,6 +24,7 @@ function MapPage(props){
     const [isAdding, setIsAdding] = useState(false);
     //gets set when a user is adding a court and then clicks on a location which becomes the location of the new court
     const [lastClickedLocation, setLastClickedLocation] = useState(null);
+    const [showModal, setShowModal] = useState(false);
     //mapcuror changes to a pushpin win user is adding a new court
     const [mapCursor, setMapCursor] = useState();
     //alert for if location services are unavilable
@@ -54,6 +55,7 @@ function MapPage(props){
         }
         console.log('about to set last clicked location')
         setLastClickedLocation(event.latLng);
+        setShowModal(true);
     }
     //if center is null then location services are off and the alert needs to be shown
     const checkLocationServices = ()=>{
@@ -111,8 +113,8 @@ function MapPage(props){
                     </Row>
                 </Container>
             </div>
-            {lastClickedLocation !== null &&
-                <AddCourtModal courts={courts} setCourts={setCourts} latLng={lastClickedLocation} setIsAdding={setIsAdding}/>
+            {lastClickedLocation !== null && showModal == true &&
+                <AddCourtModal courts={courts} setCourts={setCourts} latLng={lastClickedLocation} showModal={showModal} setShowModal={setShowModal} setIsAdding={setIsAdding}/>
             }
             
         </Container>
@@ -128,8 +130,8 @@ function MapPage(props){
  * @param {*} latlng - latlng object to display where the court is being added on the map 
  * @param {*} setIsAdding - change the isAdding boolean to false whe nthe user exits the modal or successfully adds a new court 
  */
-function AddCourtModal({courts, setCourts, latLng, setIsAdding}){
-    console.log(latLng);
+function AddCourtModal({courts, setCourts, latLng, showModal,setShowModal,setIsAdding}){
+    console.log(showModal);
     var inputChangeTimeout = 300;
     const courtFeatures = useContext(CourtFeaturesContext);
     const [name, updateName] = useInputWithTimeout(inputChangeTimeout, '');
@@ -140,7 +142,6 @@ function AddCourtModal({courts, setCourts, latLng, setIsAdding}){
     const [meshType, setMeshType] = useState(courtFeatures.meshTypes[0]);
     const [lighting, setLighting] = useState(courtFeatures.lighting[0]);
     const [parking, setParking] = useState(courtFeatures.parking[0]);
-    const [show, setShow] = useState(true)
     const [showValidationAlert, setShowValidationAlert] = useState(false)
     const [inputValid, setInputValid] = useState(false)
     //a function to add a new court to the list of courts and push the new court to the database
@@ -171,7 +172,7 @@ function AddCourtModal({courts, setCourts, latLng, setIsAdding}){
     }
     //hides the modal and stops user from adding a court
     const handleHide = ()=>{
-        setShow(false); 
+        setShowModal(false); 
         setIsAdding(false);
     }
     //display appropriate alert after the add court form has been validated
@@ -193,7 +194,7 @@ function AddCourtModal({courts, setCourts, latLng, setIsAdding}){
         }
     })
     return(
-        <Modal show={show} onHide={handleHide}>
+        <Modal show={showModal} onHide={handleHide}>
             <Modal.Header>Adding Court At ({latLng.lat()}, {latLng.lng()})</Modal.Header>
             <Modal.Body>
                 <Container className='m-0 p-3'>
