@@ -1,6 +1,7 @@
 import {Container, Button, Row, Col, ListGroup,ListGroupItem} from 'react-bootstrap'
 
 function SavedPage(props){
+    //get the courts from local storage
     var savedCourts = JSON.parse(localStorage.getItem('savedCourts'));
     return(
         <Container fluid className='page bg-secondary text-white p-5'>
@@ -17,7 +18,10 @@ function SavedPage(props){
 
     )
 }
-
+/**
+ * a presentational compoenent that displays the court data from saved courts
+ * @param {*} courtData - the data from the saved court 
+ */
 function SavedCourtListItem({courtData}){
     return(
         <ListGroupItem className='saved-court border border-primary bg-secondary p-3'>
@@ -27,7 +31,7 @@ function SavedCourtListItem({courtData}){
                         <h3 className='text-primary'>{courtData.park_name}</h3>
                         <strong>{courtData.area}</strong>
                     </Col>
-                    <Col md={{span:7}}>
+                    <Col md={{span:9}}>
                         <Row>
                             <Col>
                                 <label className='text-primary'>Court Condition:</label>
@@ -57,9 +61,9 @@ function SavedCourtListItem({courtData}){
                             </Col>
                         </Row>
                     </Col>
-                    <Col className='d-flex justify-content-center' md={{span:2}}>
+                    {/* <Col className='d-flex justify-content-center' md={{span:2}}>
                         <Button variant="primary" size="lg">Go To Court</Button>
-                    </Col>
+                    </Col> */}
                 </Row>
             </Container>
         </ListGroupItem>

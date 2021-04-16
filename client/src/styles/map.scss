@@ -10,6 +10,7 @@
     -webkit-box-shadow: 0px 6px 12px 0px #000;
     -moz-box-shadow: 0px 6px 12px 0px #000;
     box-shadow: 0px 6px 12px 0px #000; 
+    ;
     .navigation-info-items{
         margin:0
         
@@ -81,4 +82,8 @@
         object-fit: cover;
     }
     
+}
+
+.hoopseek-pushpin-cursor{
+    cursor:url('../media/hoopseek/push-pin.png'), auto;
 }

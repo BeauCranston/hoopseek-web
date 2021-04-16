@@ -1,8 +1,8 @@
 
-import React, { Component, useState, useContext, useEffect } from 'react';
+import React, { Component, useState, useContext} from 'react';
 import {CourtFeaturesContext} from '../../contexts/courtFeatures-context'
 import {Container, Row, Col, Button, FormControl, FormLabel} from 'react-bootstrap'
-import { GoogleMap, InfoWindow, LoadScript, Marker, Circle } from '@react-google-maps/api';
+import { GoogleMap, InfoWindow, LoadScript, Marker} from '@react-google-maps/api';
 import $ from 'jquery';
 import courtIcon from '../../media/hoopseek/push-pin.png'
 import './MapContainer.scss';
@@ -17,23 +17,19 @@ export class GoogleMapWithApiKey extends Component {
         this.props.onClick(event)
     }
   render() {
-      console.log('map re-rendered')
-    return (
-      <LoadScript
-        googleMapsApiKey={process.env.REACT_APP_GOOGLEMAPSAPIKEY}
-      >
-        <GoogleMap
-          mapContainerStyle={this.props.containerStyle}
-          center={this.props.center}
-          zoom={this.props.zoom}
-          onClick={this.onClick}
-        //{...this.props}
-        
-        >
-            {this.props.children}
-        </GoogleMap>
-      </LoadScript>
-    )
+        console.log('map re-rendered')
+        return (
+            <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLEMAPSAPIKEY}>   
+                <GoogleMap
+                mapContainerStyle={this.props.containerStyle}
+                center={this.props.center}
+                zoom={this.props.zoom}
+                onClick={this.onClick}
+                options={{draggableCursor:this.props.cursor}}>
+                    {this.props.children}
+                </GoogleMap>
+            </LoadScript>
+        )
   }
 }
 
@@ -89,7 +85,11 @@ export function HoopseekInfoWindow({courtData, isSaved}){
     const [meshType, setMeshType] = useState(courtData.mesh_type);
     const [lighting, setLighting] = useState(courtData.lighting);
     const [parking, setParking] = useState(courtData.parking);
-    const getCourtImage = (courtName)=>{return courtName.replaceAll(' ', '-') + '.PNG';}
+    const getCourtImage = (courtName)=>{
+        if(courtName.includes("Park"))
+            return courtName.replaceAll(' ', '-') + '.PNG';
+        return 'defaultCourt.png'
+    }
     /**
      * Called on save court button click. 
      * Gets savedCourts from localStorage by parsing result to JSON. 
@@ -134,7 +134,7 @@ export function HoopseekInfoWindow({courtData, isSaved}){
             <h2>{courtData.park_name}</h2>
             <strong style={{fontSize:'1.2em'}} className='my-3'>{courtData.area}</strong>
             <Container className='court-image-container my-3 p-0'>
-                <img src={`./courts/${getCourtImage(courtData.park_name)}.PNG`}/>
+                <img src={`./courts/${getCourtImage(courtData.park_name)}`}/>
             </Container>
             <Row className='my-3 text-center'>
                 <Col>

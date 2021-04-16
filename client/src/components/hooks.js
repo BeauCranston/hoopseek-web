@@ -91,22 +91,22 @@ export function useNavigator(){
     return [userLocation, feedBack, allowed];
 }
 
-
-export function useReverseGeocoding(coords){
-    const [address, setAddress] = useState('')
-    useEffect(()=>{
-        console.log('coords: ' + coords);
-        if(address === ''){
-            $.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat},${coords.lng}&key=AIzaSyC53vjJz1yGfttbXxeHvFgf_hzN-KnwgWQ`, (results)=>{
-                console.log(results);
-                setAddress(results);
+//broken hook that is really bad with making excessive calls to google api
+// export function useReverseGeocoding(coords){
+//     const [address, setAddress] = useState('')
+//     useEffect(()=>{
+//         console.log('coords: ' + coords);
+//         if(address === ''){
+//             $.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat},${coords.lng}&key=AIzaSyC53vjJz1yGfttbXxeHvFgf_hzN-KnwgWQ`, (results)=>{
+//                 console.log(results);
+//                 setAddress(results);
         
-            })
-        }
-    })
+//             })
+//         }
+//     })
 
-    return address;
-}
+//     return address;
+// }
 
 /**
  * sets a start point and returns the start point along with a function that calculates the distance in KM to another point specified in the parameter

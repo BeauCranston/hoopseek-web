@@ -1,4 +1,6 @@
-
+/**
+ * STATEMENT OF AUTHORSHIP: I BEAU CRANSTON, 000397019 DECLARE THAT ALL WORK DONE HERE IS MY OWN!!
+ */
 
 import {Switch, Route, Link} from 'react-router-dom'
 import React, {useState, useEffect } from 'react';
@@ -13,9 +15,12 @@ import fb from './media/company-logos/facebook-logo.png'
 import insta from './media/company-logos/instagram.png'
 import twitter from './media/company-logos/twitter.png'
 function App() {
+    // gets users location as state along with a feedback message for an alert
     const [userLocation, feedback, allowed] = useNavigator();
+    // boolean that shows the alert
     const [alertShow, setAlertShow] = useState(false);
     useEffect(()=>{
+        //show the alert for 2 seconds when allowed state changes
         var timeout = 0
         var alertTime = 2000;
         if(allowed !== null){
