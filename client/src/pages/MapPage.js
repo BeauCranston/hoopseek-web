@@ -10,8 +10,11 @@ import {UserLocationContext} from '../contexts/userLocation-context'
 import '../styles/map.scss';
 import userLocationIcon from '../media/hoopseek/user-location.png'
 function MapPage(props){
-    var initalRadiusValue = 10;
+    var initalRadiusValue = 15;
     var inputTimeout = 1000;
+    var radiusMin = 1;
+    var radiusMax = 30;
+    var zoomLevel = 11;
     //the user's location which was determined when the app opened.
     const userLocation = useContext(UserLocationContext);
     //radius of circle in KM. Update radius sets the radius state but with a specified timeout period to reduce unnecessary renders.
@@ -29,14 +32,16 @@ function MapPage(props){
     const [mapCursor, setMapCursor] = useState();
     //alert for if location services are unavilable
     const [showLocationServicesAlert, setShowLocationServicesAlert] = useState(false);
+    //keeps track of the court that is currently open so that only one court is open at a time
+    const [openCourtId, setOpenCourtId] = useState(null); 
     //gets the courts that were saved from localStorage
     const checkSavedCourts = (court)=>{
         var savedCourts = JSON.parse(localStorage.getItem('savedCourts'));            
         if(savedCourts === null)
-            return <HoopseekMarker key={court.court_id} courtData={court} isSaved={false}/>
+            return <HoopseekMarker key={court.court_id} courtData={court} isSaved={false} handleOpen={()=>{setOpenCourtId(court.court_id)}} openCourtId={openCourtId}/>
         //determine if the court being processed is included in the saved courts array and return a marker with the result being passed in as a prop
         var isSaved = savedCourts.some(savedCourt=> savedCourt.court_id === court.court_id);
-        return <HoopseekMarker key={court.court_id} courtData={court} isSaved={isSaved}/>
+        return <HoopseekMarker key={court.court_id} courtData={court} isSaved={isSaved} handleOpen={()=>{setOpenCourtId(court.court_id)}} openCourtId={openCourtId}/>
     }
     //a function that filters the courts that are out of range of the circle radius
     const filterOutOfRangeCourts = (courts)=>{
@@ -81,7 +86,7 @@ function MapPage(props){
             <div className='d-flex justify-content-center'>
                 <Alert className='text-center' show={showLocationServicesAlert} variant='danger'>Location Services are needed for the app to work!</Alert>
             </div>
-            <GoogleMapWithApiKey containerStyle={{width:'100vw', height:'90vh'}} center={center} zoom={10} onClick={tryAddMarker} cursor={mapCursor}>
+            <GoogleMapWithApiKey containerStyle={{width:'100vw', height:'90vh'}} center={center} zoom={zoomLevel} onClick={tryAddMarker} cursor={mapCursor}>
                 {isAdding === false &&
                     <Circle center={center} radius={radius * 1000} options={{strokeColor:'#E43F5A', fillColor:'#162447'}}/>
                 }            
@@ -97,12 +102,12 @@ function MapPage(props){
                 <Container fluid className='navigation-info-items' >
                     <h3>Navigation Info</h3>
                     <Row>
-                        <Col className='col-4 col-md-12 my-4'>
-                            <FormControlWithLabel className='slider bg-primary mt-2' type='range' min={1} max={20}label={'Search Radius'} onChange={updateRadius} />
+                        <Col className='col-8 offset-2 col-md-12 offset-md-0 my-4'>
+                            <FormControlWithLabel className='slider bg-primary mt-2 mx-auto w-100' type='range' min={radiusMin} max={radiusMax}label={'Search Radius'} onChange={updateRadius} />
                         </Col>
                     </Row>
                     <h4>{radius}km</h4>
-                    <Row>
+                    <Row className='mt-2 mt-md-5'>
                         <Col>
                             <Button onClick={()=>{
                                 setIsAdding(true); 

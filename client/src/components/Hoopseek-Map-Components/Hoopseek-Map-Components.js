@@ -1,5 +1,5 @@
 
-import React, { Component, useState, useContext} from 'react';
+import React, { Component, useState, useContext, useEffect} from 'react';
 import {CourtFeaturesContext} from '../../contexts/courtFeatures-context'
 import {Container, Row, Col, Button, FormControl, FormLabel} from 'react-bootstrap'
 import { GoogleMap, InfoWindow, LoadScript, Marker} from '@react-google-maps/api';
@@ -52,15 +52,27 @@ export function CourtFeatureInput({options, initalValue, label, setState, showIn
         
     );
 }   
-
-export function HoopseekMarker({courtData, isSaved}){
+/**
+ * a custom marker component that when clicked, opens a custom infowindow with all of the court information.
+ * Court information can be viewed, edited, or saved.
+ * @param {*} courtData - the data of thecourt being passed in
+ * @param {*} isSaved - checks if the component is saved
+ * @param {*} handleOpen - let the map know that the marker is open so that only one court remains open at a time
+ * @param {*} opencourtId - the id of the open court to manage whether or not the current court should be open 
+ */
+export function HoopseekMarker({courtData, isSaved, handleOpen, openCourtId}){
     //determines if the marker's info window is open
     const [isOpen, setIsOpen] = useState(false);
     const courtPosition = {lat:parseFloat(courtData.latitude), lng:parseFloat(courtData.longitude)};
+    useEffect(()=>{
+        setIsOpen(openCourtId===courtData.court_id)
+    }, [openCourtId])
     //get's the court name and modifies it to the name of the image file associated with the court (stored in public folder).
     return(     
         // place marker at the positon gathered from the courtData object  
-        <Marker position={courtPosition} icon={courtIcon} onClick={()=>{setIsOpen(!isOpen)}}>
+        <Marker position={courtPosition} icon={courtIcon} onClick={()=>{
+            handleOpen();
+        }}>
             {isOpen === true &&
                 <InfoWindow>
                     <HoopseekInfoWindow courtData={courtData} isSaved={isSaved}/>
@@ -71,7 +83,10 @@ export function HoopseekMarker({courtData, isSaved}){
     
 }
 
-
+/**
+ * a custom info window component that allows for editing and viewing a court on the map
+ * @param {*} param0 
+ */
 export function HoopseekInfoWindow({courtData, isSaved}){
     //gets court feature options from global context
     const courtFeatures = useContext(CourtFeaturesContext);
